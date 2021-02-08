@@ -23,6 +23,8 @@ namespace EnviaRecebeKafka
             Log.Information("Thread de envio iniciada");
             envia.Start();
 
+            //Thread.Sleep(5000);
+
             // dispara uma nova thread para recebimento de mensagens
             Thread recebe = new Thread(RecebeKafka);
             Log.Information("Thread de recebimento iniciada");
@@ -94,19 +96,20 @@ namespace EnviaRecebeKafka
                         try
                         {
                             var cr = c.Consume(cts.Token);
-                            Console.WriteLine(cr.Value);
+                            Console.WriteLine(cr.Message.Value);
 
-                            Log.Debug($"Mensagem recebida: {cr.Value}");
+                            Log.Debug($"Mensagem recebida: {cr.Message.Value}");
                         }
-                        catch (ConsumeException e)
+                        catch (Exception e)
                         {
-                            Console.WriteLine($"Error occured: {e.Error.Reason}");
+                            Log.Error(e, "Erro no recebimento");
                         }
                     }
                 }
                 catch (OperationCanceledException)
                 {
                     c.Close();
+                    Log.Information("Recebimento encerrado!");
                 }
             }
         }
