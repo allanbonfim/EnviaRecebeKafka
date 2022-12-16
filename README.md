@@ -1,5 +1,5 @@
 # EnviaRecebeKafka
-Teste para o banco Bari
+Teste 
 
 Teste realizado usando o docker kafka, para configurar, usar o aquivo docker-compose.yml.
 
